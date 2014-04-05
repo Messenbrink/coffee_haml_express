@@ -1,37 +1,51 @@
+// Module dependencies
+express  = require 'express'
+mongoose = require 'mongoose'
+redis		 = require 'connect-redis'
+configDB = require './config/database.coffee'
+app 		 = express()
+port 		 = process.env.PORT || 8080
+passport = require 'passport'
+flash		 = require 'connect-flash'
 
-/**
- * Module dependencies.
- */
+// Establish DB Connection
+mongoose.connect(configDB.url)
 
-express = require('express')
-partials = require('express-partials')
-routes = require('./routes')
-user = require('./routes/user')
-http = require('http')
-path = require('path')
+// Use Passport configuration
+require('./config/passport')(passport)
 
-app = express()
+// All Environments
+app.configure(() ->
+	app.set 'view engine', 'jade'
+	app.set 'views', "#{__dirname}/views"
+	app.use express.favicon()
+	app.use express.logger()
+	app.use express.bodyDecoder()
+	app.use express.cookieDecoder()
+	app.use express.session({
+		secret: "thisissomerandomsecretstring"
+	})
+	app.use app.router
+	// Passport configuration
+	app.use passport.initialize()
+	app.use passport.session()
+	app.use flash()
+)
 
-// all environments
-app.set('port', process.env.PORT || 3000)
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'jade')
-app.use(express.favicon())
-app.use(express.json())
-app.use(express.urlencoded())
-app.use(express.methodOverride())
-app.use(app.router)
-app.use(express.static(path.join(__dirname, 'public')))
+// Development
+app.configure 'development', () ->
+	app.use express.errorHandler({
+		dumpExceptions: true
+		showStack: true
+	})
 
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler())
-  app.use(express.logger('dev'))
-}
+// Production
+app.configure 'production', () ->
+	app.use express.errorHandler()
 
-app.get('/', routes.index)
-app.get('/users', user.list)
+// Locate Routes
+require('./app/routes.coffee')(app, passport)
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'))
-})
+// Launch Server
+app.listen(port)
+console.log 'This application is running on port ' + port
