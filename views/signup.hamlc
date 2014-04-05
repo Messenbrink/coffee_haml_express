@@ -1,0 +1,33 @@
+!!!
+%html
+  %head
+    %title MEAN CRUD
+    %link{href: "//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css", rel: "stylesheet", type: "text/css"}
+    %link{href: "//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css", rel: "stylesheet", type: "text/css"}
+    %link{href: "/stylesheets/style.css", rel: "stylesheet", type: "text/css"}
+  %body
+		.container
+      .col-sm-6.col-sm-offset-3
+        %h1
+          %span.fa.fa-sign-in
+          Signup
+          - if message.length
+            .alert.alert-danger
+            = message
+        %form{action: "/signup", method: "post"}
+          .form-group
+            %label Email
+            %input.form-control{name: "email", type: "text"}
+          .form-group
+            %label Password
+            %input.form-control{name: "password", type: "password"}
+          %button.btn.btn-warning.btn-lg{type: "submit"}
+            Signup
+          %hr
+          %p
+            Already have an account?
+            %a{href: "/signup"} Signup
+          %p
+            Or go
+            %a{href: "/"} home
+            .
