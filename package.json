@@ -10,6 +10,7 @@
     "express-partials": "",
     "mongoose": "*",
     "connect-redis": "*",
+    "angular": "~1.2.15",
     "haml-coffee": "",
     "coffee-script": "~1.7.0",
     "passport": "~0.2.0",
