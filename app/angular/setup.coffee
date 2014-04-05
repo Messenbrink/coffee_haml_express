@@ -22,14 +22,14 @@ mean.config ($routeProvider) ->
 	$routeProvider.otherwise redirectTo: '/login'
 
 // Controllers
-app.controller 'LoginController', ($scope) ->
+mean.controller 'LoginController', ($scope) ->
 	$scope.credentials =
 		email: ""
 		password: ""
 
-app.controller 'SignupController', ($scope) ->
+mean.controller 'SignupController', ($scope) ->
 	$scope.credentials =
 		email: ""
 		password: ""
 
-app.controller 'ProfileController', ($scope) ->
+mean.controller 'ProfileController', ($scope) ->
