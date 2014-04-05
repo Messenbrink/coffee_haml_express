@@ -1,0 +1,25 @@
+.container
+  .col-sm-6.col-sm-offset-3
+    %h1
+      %span.fa.fa-sign-in
+      Signup
+      - if message.length
+        .alert.alert-danger
+        = message
+    %form{action: "/signup", method: "post"}
+      .form-group
+        %label Email
+        %input.form-control{name: "email", type: "text", placeholder: "Email", "ng-model" => "credentials.email"}
+      .form-group
+        %label Password
+        %input.form-control{name: "password", type: "password", placeholder: "Password", "ng-model" => "credentials.password"}
+      %button.btn.btn-warning.btn-lg{type: "submit"}
+        Signup
+      %hr
+      %p
+        Already have an account?
+        %a{href: "/signup"} Signup
+      %p
+        Or go
+        %a{href: "/"} home
+        .
